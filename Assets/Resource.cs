@@ -7,10 +7,10 @@ public class Resource : Item
 
 	private float rarity;
 
-	private WorldMapTileType[] whereToFind;
+	private WorldMapTile.WorldMapTileType[] whereToFind;
 
 	public Resource(string name, int approximateWorth, int weight, int strength, int durability,
-			float rarity, WorldMapTileType[] whereToFind)
+			float rarity, WorldMapTile.WorldMapTileType[] whereToFind)
 			: base (name, 0, approximateWorth, weight)
 	{
 		// TODO Auto-generated constructor stub
@@ -38,12 +38,12 @@ public class Resource : Item
 	 * Gives specific environments where this can be found, or null if it can be found anywhere
 	 * @return
 	 */
-	public WorldMapTileType[] getPlacesToFind()
+	public WorldMapTile.WorldMapTileType[] getPlacesToFind()
 	{
 		return whereToFind;
 	}
 
-	public bool canBeFoundHere(WorldMapTileType type)
+	public bool canBeFoundHere(WorldMapTile.WorldMapTileType type)
 	{
 		if (whereToFind == null)
 		{

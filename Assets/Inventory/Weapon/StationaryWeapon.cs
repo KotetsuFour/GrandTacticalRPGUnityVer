@@ -1,5 +1,5 @@
 using System;
-public class StationaryWeapon : Weapon, BFTileOccupantData
+public class StationaryWeapon : Weapon, BFTileOccupant
 {
 
 	protected int battlegroundMapLocationX;

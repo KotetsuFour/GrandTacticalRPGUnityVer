@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class BFTileOccupant : MonoBehaviour
+public interface BFTileOccupant
 {
+    public string getDisplayName();
 }

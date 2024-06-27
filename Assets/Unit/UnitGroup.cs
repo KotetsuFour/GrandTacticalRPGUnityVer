@@ -32,7 +32,7 @@ public class UnitGroup : WMTileOccupant
 			new int[] {7, 8}, new int[] {7, 11}, new int[] {8, 6}, new int[] {8, 13}, new int[] {13, 7}, new int[] {13, 12}, new int[] {15, 7}, new int[] {15, 12}, {5, 7}, {5, 12}
 	};
 
-	public UnitGroup(Unit firstMember)
+	public UnitGroup(GameUnit firstMember)
 	{
 		members = new List<Unit>(CAPACITY);
 		members.Add(firstMember); //Ensures that the group is never empty
@@ -297,7 +297,7 @@ public class UnitGroup : WMTileOccupant
 		//(it makes figuring out affiliation easier)
 		if (u is Monster)
 		{
-			Unit check = members[0];
+			GameUnit check = members[0];
 			if (!(check is Monster)
 							|| ((Monster)check).getMaster() != ((Monster)u).getMaster())
 			{
@@ -427,7 +427,7 @@ public class UnitGroup : WMTileOccupant
 		prisoners = null;
 		return ret;
 	}
-	public Unit getLeader()
+	public override Unit getLeader()
 	{
 		return members[0];
 	}
@@ -441,7 +441,7 @@ public class UnitGroup : WMTileOccupant
 		string sb = "Members:\n";
 		for (int q = 0; q < members.Count; q++)
 		{
-			Unit u = members.get(q);
+			Unit u = members[q];
 			sb += $"{u.getName()} {u.getUnitClassName()}\n";
 		}
 		int[] power = getPower();

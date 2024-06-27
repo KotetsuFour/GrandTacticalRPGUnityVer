@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UnitData : BFTileOccupantData
+public abstract class Unit : BFTileOccupant
 {
 	public static int MAX_LEVEL = 20;
 	public static int EXPERIENCE_TOWARDS_LEVEL = 100;
@@ -14,7 +14,7 @@ public abstract class UnitData : BFTileOccupantData
 	protected string nickname;
 	protected UnitGroup group;
 	protected int[] activeEffects;
-	protected BFTileOccupant passenger;
+	protected GameBFTileOccupant passenger;
 	protected int battlePositionX;
 	protected int battlePositionY;
 	protected int[] bodyPartsCurrentHP;
@@ -41,7 +41,7 @@ public abstract class UnitData : BFTileOccupantData
 	public static int HEAD = 0;
 	public static int TORSO = 1;
 
-	public UnitData(int level, UnitClass unitClass, string name, int[] maxHPs, int magic, int skill, int reflex,
+	public Unit(int level, UnitClass unitClass, string name, int[] maxHPs, int magic, int skill, int reflex,
 			int awareness, int resistance, int movement, int leadership, int[] maxHPGrowths,
 			int magGrowth, int sklGrowth, int rfxGrowth, int awrGrowth, int resGrowth)
 	{
@@ -107,7 +107,7 @@ public abstract class UnitData : BFTileOccupantData
 	{
 		return unitClass;
 	}
-	public BFTileOccupant getPassenger()
+	public GameBFTileOccupant getPassenger()
 	{
 		return passenger;
 	}
@@ -247,14 +247,14 @@ public abstract class UnitData : BFTileOccupantData
 	 * the killer's nation
 	 * @param dfd
 	 */
-	public void wasKilledBy(UnitData killer)
+	public void wasKilledBy(Unit killer)
 	{
 		if (getAffiliation() != null && killer.getAffiliation() != null)
 		{
 			getAffiliation().getCurrentWarWith(killer.getAffiliation()).incrementKills(this);
 		}
 	}
-	public bool isEnemyOf(UnitData o)
+	public bool isEnemyOf(Unit o)
 	{
 		if (o == null) {
 			return false;

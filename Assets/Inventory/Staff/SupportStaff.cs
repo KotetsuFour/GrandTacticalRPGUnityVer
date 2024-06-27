@@ -8,7 +8,7 @@ public class SupportStaff : Staff
 		// TODO Auto-generated constructor stub
 	}
 
-	public void effect(Unit u)
+	public void effect(GameUnit u)
 	{
 		//TODO
 	}

@@ -32,7 +32,7 @@ public class UnitGroup : WMTileOccupant
 			new int[] {7, 8}, new int[] {7, 11}, new int[] {8, 6}, new int[] {8, 13}, new int[] {13, 7}, new int[] {13, 12}, new int[] {15, 7}, new int[] {15, 12}, {5, 7}, {5, 12}
 	};
 
-	public UnitGroup(GameUnit firstMember)
+	public UnitGroup(Unit firstMember)
 	{
 		members = new List<Unit>(CAPACITY);
 		members.Add(firstMember); //Ensures that the group is never empty
@@ -44,12 +44,12 @@ public class UnitGroup : WMTileOccupant
 		groupIsAIControlled = firstMember.getAffiliation() != GeneralGameplayManager.getPlayerNation();
 
 		//Add yourself to the nation's unitgroup list
-		firstMember.getAffiliation().getUnitGroups().add(this);
+		firstMember.getAffiliation().getUnitGroups().Add(this);
 	}
 
 	public UnitGroup(List<Human> u)
 	{
-		members = new List<Unit>(CAPACITY, CAPACITY);
+		members = new List<Unit>(CAPACITY);
 		members.Add(u[0]);
 		members[0].assignGroup(this);
 		for (int q = 1; q < u.Count; q++)
@@ -60,7 +60,7 @@ public class UnitGroup : WMTileOccupant
 		isAIControlled = u[0].getAffiliation() != GeneralGameplayManager.getPlayerNation();
 
 		//Add yourself to the nation's unitgroup list
-		u[0].getAffiliation().getUnitGroups().add(this);
+		u[0].getAffiliation().getUnitGroups().Add(this);
 
 	}
 
@@ -78,12 +78,12 @@ public class UnitGroup : WMTileOccupant
 		return members.Contains(u);
 	}
 
-	public override WorldMapTile getLocation()
+	public WorldMapTile getLocation()
 	{
 		return location;
 	}
 
-	public override int getMovement()
+	public int getMovement()
 	{
 		PriorityQueue<int> canBeCarriedMoves = new PriorityQueue<int>();
 		PriorityQueue<int> canCarryMoves = new PriorityQueue<int>();
@@ -297,15 +297,16 @@ public class UnitGroup : WMTileOccupant
 		//(it makes figuring out affiliation easier)
 		if (u is Monster)
 		{
-			GameUnit check = members[0];
+			Unit check = members[0];
 			if (!(check is Monster)
 							|| ((Monster)check).getMaster() != ((Monster)u).getMaster())
 			{
 				return false;
 			}
 		}
-		if (members.Add(u))
+		if (members.Count < CAPACITY)
 		{
+			members.Add(u);
 			u.assignGroup(this);
 			customPositions = false;
 			return true;
@@ -326,7 +327,7 @@ public class UnitGroup : WMTileOccupant
 		{
 			if (members.Count == 0)
 			{
-				n.getUnitGroups().remove(this);
+				n.getUnitGroups().Remove(this);
 				if (location != null && location.getGroupPresent() == this)
 				{
 					location.removeGroupOrShip();
@@ -427,7 +428,7 @@ public class UnitGroup : WMTileOccupant
 		prisoners = null;
 		return ret;
 	}
-	public override Unit getLeader()
+	public Unit getLeader()
 	{
 		return members[0];
 	}
@@ -445,7 +446,7 @@ public class UnitGroup : WMTileOccupant
 			sb += $"{u.getName()} {u.getUnitClassName()}\n";
 		}
 		int[] power = getPower();
-		sb += $"Power:\nPhysical: {power[0]}, Magical: {power[1]}, Accuracy: {power[2]}, Avoidance: {power[3]},\n";);
+		sb += $"Power:\nPhysical: {power[0]}, Magical: {power[1]}, Accuracy: {power[2]}, Avoidance: {power[3]},\n";
 		sb += $"Crit Rate: {power[4]}, Crit Avoid: {power[5]}, AS: {power[6]}, DEF: {power[7]}, RES: {power[8]}\n";
 		sb += $"Head HP: {power[9]}, Torso HP: {power[10]}\n";
 

@@ -11,7 +11,7 @@ public static NamingConvention[] LANGUAGES_IN_USE = {new PrimitiveNamingConventi
 			new SyllabicNamingConvention(), new ReverseSyllabicNamingConvention()};
 	*/
 
-public static ColorSet[] SKIN_COLORS = {
+	public static ColorSet[] SKIN_COLORS = {
 	new ColorSet("Realistic", new Color[] {
 					new Color(243.0f/255, 213.0f/255, 208.0f/255, 1),
 					new Color(218.0f/255, 185.0f/255, 176.0f/255, 1),
@@ -53,7 +53,7 @@ public static ColorSet[] SKIN_COLORS = {
 					new Color(164.0f/255, 164.0f/255, 164.0f/255, 1),
 			})
 	};
-public static ColorSet[] HAIR_COLORS = {
+	public static ColorSet[] HAIR_COLORS = {
 	new ColorSet("Realistic", new Color[] {
 					new Color(8.0f/255,8.0f/255,6.0f/255, 1),
 					new Color(107.0f/255,78.0f/255,64.0f/255, 1),
@@ -95,7 +95,7 @@ public static ColorSet[] HAIR_COLORS = {
 					new Color(97.0f/255,153.0f/255,55.0f/255, 1),
 			})
 	};
-public static ColorSet[] EYE_COLORS = {
+	public static ColorSet[] EYE_COLORS = {
 	new ColorSet("Realistic", new Color[] {
 					new Color(78.0f/255,96.0f/255,163.0f/255, 1),
 					new Color(176.0f/255,185.0f/255,217.0f/255, 1),
@@ -138,49 +138,49 @@ public static ColorSet[] EYE_COLORS = {
 			})
 	};
 
-public static ColorSet SKIN_COLORS_IN_USE = new ColorSet("Skin Colors", null);
-public static ColorSet HAIR_COLORS_IN_USE = new ColorSet("Hair Colors", null);
-public static ColorSet EYE_COLORS_IN_USE = new ColorSet("Eye Colors", null);
+	public static ColorSet SKIN_COLORS_IN_USE = new ColorSet("Skin Colors", null);
+	public static ColorSet HAIR_COLORS_IN_USE = new ColorSet("Hair Colors", null);
+	public static ColorSet EYE_COLORS_IN_USE = new ColorSet("Eye Colors", null);
 
-/**
- * Used for percentage chance to perform an action or increment a stat
- * If whatever value > this return value, perform the action
- * @return random value
- */
-public static int random0To99()
-{
-	return Random.Range(0, 100);
-}
+	/**
+	 * Used for percentage chance to perform an action or increment a stat
+	 * If whatever value > this return value, perform the action
+	 * @return random value
+	 */
+	public static int random0To99()
+	{
+		return Random.Range(0, 100);
+	}
 
-/**
- * Used for generating stats ranging from 0 to 100
- * @return random value
- */
-public static int random0To100()
-{
-	return Random.Range(0, 101);
-}
+	/**
+	 * Used for generating stats ranging from 0 to 100
+	 * @return random value
+	 */
+	public static int random0To100()
+	{
+		return Random.Range(0, 101);
+	}
 
-public static int nextInt(int range)
-{
-	return Random.Range(0, range) + 1;
-}
+	public static int nextInt(int range)
+	{
+		return Random.Range(0, range) + 1;
+	}
 
-public static bool nextBoolean()
-{
-	return Random.Range(0, 2) == 0;
-}
+	public static bool nextBoolean()
+	{
+		return Random.Range(0, 2) == 0;
+	}
 
-/**
- * Gives a randomly generated name for a character
- * @param style represents the kind of name generation, meant to individualize different cultures
- * @return randomly generated name
- */
-public static string randomName(int style)
-{
-	//TODO make this different depending on style
-	return FantasyNames.getName();
-}
+	/**
+	 * Gives a randomly generated name for a character
+	 * @param style represents the kind of name generation, meant to individualize different cultures
+	 * @return randomly generated name
+	 */
+	public static string randomName(int style)
+	{
+		//TODO make this different depending on style
+		return FantasyNames.getName();
+	}
 
 	/*
 public static int numberOfLanguages()
@@ -189,11 +189,11 @@ public static int numberOfLanguages()
 }
 	*/
 
-public static string newLocationName(int language)
-{
-	//TODO maybe change this to differentiate names of people and nations
-	return randomName(language);
-}
+	public static string newLocationName(int language)
+	{
+		//TODO maybe change this to differentiate names of people and nations
+		return randomName(language);
+	}
 
 	/*
 public static void useLanguage(List<Integer> langs)
@@ -207,33 +207,33 @@ public static void useLanguage(List<Integer> langs)
 }
 
 	*/
-public static void useColors(List<int> hair, List<int> skin, List<int> eye)
-{
-	for (int q = 0; q < hair.Count; q++)
+	public static void useColors(List<int> hair, List<int> skin, List<int> eye)
 	{
-		HAIR_COLORS_IN_USE.addColors(HAIR_COLORS[hair[q]]);
+		for (int q = 0; q < hair.Count; q++)
+		{
+			HAIR_COLORS_IN_USE.addColors(HAIR_COLORS[hair[q]]);
+		}
+		for (int q = 0; q < skin.Count; q++)
+		{
+			SKIN_COLORS_IN_USE.addColors(SKIN_COLORS[skin[q]]);
+		}
+		for (int q = 0; q < eye.Count; q++)
+		{
+			EYE_COLORS_IN_USE.addColors(EYE_COLORS[eye[q]]);
+		}
+		//TODO save in database
 	}
-	for (int q = 0; q < skin.Count; q++)
-	{
-		SKIN_COLORS_IN_USE.addColors(SKIN_COLORS[skin[q]]);
-	}
-	for (int q = 0; q < eye.Count; q++)
-	{
-		EYE_COLORS_IN_USE.addColors(EYE_COLORS[eye[q]]);
-	}
-	//TODO save in database
-}
 
-public static int getRandomHairColor()
-{
-	return nextInt(HAIR_COLORS_IN_USE.size());
-}
-public static int getRandomSkinColor()
-{
-	return nextInt(SKIN_COLORS_IN_USE.size());
-}
-public static int getRandomEyeColor()
-{
-	return nextInt(EYE_COLORS_IN_USE.size());
-}
+	public static int getRandomHairColor()
+	{
+		return nextInt(HAIR_COLORS_IN_USE.size());
+	}
+	public static int getRandomSkinColor()
+	{
+		return nextInt(SKIN_COLORS_IN_USE.size());
+	}
+	public static int getRandomEyeColor()
+	{
+		return nextInt(EYE_COLORS_IN_USE.size());
+	}
 }

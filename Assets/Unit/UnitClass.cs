@@ -124,10 +124,12 @@ public class UnitClass
 		return mount.getMinInitialHealth() + RNGStuff.nextInt(mount.getHealthVariance());
 	}
 
+	/*
 	public int getTier()
 	{
 		return tier;
 	}
+	*/
 
 	public int getClassType()
 	{
@@ -154,10 +156,12 @@ public class UnitClass
 		return proficiencyModifiers;
 	}
 
+	/*
 	public int[] getStatModifiers()
 	{
 		return statModifiers;
 	}
+	*/
 
 	public int magicHeuristicMultiplier()
 	{
@@ -174,7 +178,7 @@ public class UnitClass
 		return generalInternalHeuristicVal;
 	}
 
-	public double getMountEvasionBonus()
+	public float getMountEvasionBonus()
 	{
 		if (mount == null)
 		{

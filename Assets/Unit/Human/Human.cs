@@ -5,7 +5,84 @@ using System;
 
 public class Human : Unit, Equippable
 {
-	public static int RIGHT_ARM = 2;
+	public class Interest
+	{
+		public static Interest GARDENING = new Interest("Gardening");
+		public static Interest HORSEBACK_RIDING = new Interest("Horseback Riding");
+		public static Interest STUDYING = new Interest("Studying");
+		public static Interest COOKING = new Interest("Cooking");
+		public static Interest HUNTING = new Interest("Hunting");
+		public static Interest COLLECTING = new Interest("Collecting");
+		public static Interest PAINTING = new Interest("Painting");
+		public static Interest WRITING = new Interest("Writing");
+		public static Interest READING = new Interest("Reading");
+		public static Interest PLAYING_MUSIC = new Interest("Playing Music");
+		public static Interest WRITING_MUSIC = new Interest("Writing Music");
+		public static Interest SCIENTIFIC_DISCOVERY = new Interest("Scientific Discovery");
+		public static Interest ANIMALS = new Interest("Animals");
+		public static Interest STRATEGY_GAMES = new Interest("Strategy Games");
+		public static Interest ADVENTURE = new Interest("Adventure");
+		public static Interest CARPENTRY = new Interest("Carpentry");
+		public static Interest PRACTICAL_JOKES = new Interest("Practical Jokes");
+		public static Interest KNITTING = new Interest("Knitting");
+		public static Interest SWIMMING = new Interest("Swimming");
+		public static Interest PERFORMING = new Interest("Performing");
+		public static Interest SCULPTING = new Interest("Sculpting");
+		public static Interest SPORTS = new Interest("Sports");
+		public static Interest HIKING = new Interest("Hiking");
+		public static Interest TRAVELING = new Interest("Traveling");
+
+	private string displayName;
+	private Interest(string displayName)
+	{
+		this.displayName = displayName;
+	}
+
+	public string getDisplayName()
+	{
+		return displayName;
+	}
+		public static Interest[] values()
+        {
+			return new Interest[] { GARDENING, HORSEBACK_RIDING, STUDYING, COOKING, HUNTING, COLLECTING,
+			PAINTING, WRITING, READING, PLAYING_MUSIC, WRITING_MUSIC, SCIENTIFIC_DISCOVERY, ANIMALS,
+			STRATEGY_GAMES, ADVENTURE, CARPENTRY, PRACTICAL_JOKES, KNITTING, SWIMMING, PERFORMING,
+			SCULPTING, SPORTS, HIKING, TRAVELING };
+        }
+}
+
+	public class CombatTrait
+	{
+		public static CombatTrait ACCURACY = new CombatTrait("Accuracy", 5);
+		public static CombatTrait AVOIDANCE = new CombatTrait("Avoidance", 5);
+		public static CombatTrait CRITRATE = new CombatTrait("Critical Hit Rate", 5);
+		public static CombatTrait CRITAVOID = new CombatTrait("Security", 5);
+		public static CombatTrait ATTACKPOWER = new CombatTrait("Attack Power", 5);
+
+		private string displayName;
+	private int supportDividend;
+	private CombatTrait(string displayName, int supportDividend)
+	{
+		this.displayName = displayName;
+		this.supportDividend = supportDividend;
+	}
+	public string getDisplayName()
+	{
+		return displayName;
+	}
+	public int getSupportDividend()
+	{
+		return supportDividend;
+	}
+		public static CombatTrait[] values()
+        {
+			return new CombatTrait[] { ACCURACY, AVOIDANCE, CRITRATE, CRITAVOID, ATTACKPOWER };
+        }
+}
+
+
+
+public static int RIGHT_ARM = 2;
 	public static int LEFT_ARM = 3;
 	public static int RIGHT_LEG = 4;
 	public static int LEFT_LEG = 5;
@@ -67,7 +144,7 @@ public class Human : Unit, Equippable
 		//Specifically human values
 		this.gender = gender;
 		this.age = age;
-		this.isMortal = true; //No one is born immortal
+		this.humanIsMortal = true; //No one is born immortal
 		this.nationalism = personalValues[0];
 		this.militarism = personalValues[1];
 		this.altruism = personalValues[2];
@@ -288,6 +365,7 @@ public class Human : Unit, Equippable
 		{
 			proficiency[q] += unitClass.getProficiencyModifiers()[q];
 		}
+		/*
 		if (unitClass.getTier() > 1)
 		{
 			int[] sMods = unitClass.getStatModifiers();
@@ -311,6 +389,7 @@ public class Human : Unit, Equippable
 			movement += sMods[9];
 			leadership += sMods[10];
 		}
+		*/
 	}
 
 	public int getBaseMovement()
@@ -691,7 +770,7 @@ public class Human : Unit, Equippable
 
 	public override void deathSequence()
 	{
-		affiliation.getArmy().remove(this);
+		affiliation.getArmy().Remove(this);
 		if (affiliation.getRuler() == this)
 		{
 			affiliation.setRuler(null);
@@ -1041,12 +1120,12 @@ public class Human : Unit, Equippable
 		{
 			home = affiliation.getCapital();
 		}
-		int res = RNGStuff.nextInt(home.getResidentialAreas().size());
+		int res = RNGStuff.nextInt(home.getResidentialAreas().Count);
 		int initRes = res;
-		while (!(home.getResidentialAreas().get(res).addVeteran(this)))
+		while (!(home.getResidentialAreas()[res].addVeteran(this)))
 		{
 			res++;
-			if (res == home.getResidentialAreas().size())
+			if (res == home.getResidentialAreas().Count)
 			{
 				res = 0;
 			}
@@ -1061,7 +1140,7 @@ public class Human : Unit, Equippable
 			group.remove(this);
 			group = null;
 		}
-		affiliation.getArmy().remove(this);
+		affiliation.getArmy().Remove(this);
 		return true;
 	}
 
@@ -1286,13 +1365,12 @@ public class Human : Unit, Equippable
 	 * For testing purposes only
 	 * @return
 	 */
-	public String showStats()
+	public string showStats()
 	{
 		string sb = $"Name: {getDisplayName()}, Gender: {getGenderAsString()}, Age: {getAge()}\n";
 		sb += $"Militarism: {getMilitarism()}, Altruism: {getAltruism()}, Familism: {getFamilism()}, Nationalism: {getNationalism()}\n";
 		sb += $"Confidence: {getConfidence()}, Tolerance: {getTolerance()}, Interests: {getInterest1()}, {getInterest2()}, {getInterest3()}\n";
-		getConfidence(), getTolerance(), getInterest1(), getInterest2(), getInterest3()));
-		sb += ($"Demeanor: {getDemeanorAsString()}, Valued Trait: {getValuedTraitAsString()}, Disinterests: {getDisinterest1()}, {getDisinterest2()}, {getDisinterest3()}\n";
+		sb += $"Demeanor: {getDemeanorAsString()}, Valued Trait: {getValuedTraitAsString()}, Disinterests: {getDisinterest1()}, {getDisinterest2()}, {getDisinterest3()}\n";
 		int[] c = bodyPartsCurrentHP;
 		int[] m = bodyPartsMaximumHP;
 		int[] g = bodyPartsMaximumHPGrowth;
@@ -1301,7 +1379,7 @@ public class Human : Unit, Equippable
 		sb += $"Magic: {magic} ({magicGrowth}%), Skill: {skill} ({skillGrowth}%), Reflex: {reflex} ({reflexGrowth}%), Awareness: {awareness} ({awarenessGrowth}%)\n"
 				+ $"Resistance: {resistance} ({resistanceGrowth}%), Movement: {movement}, Leadership: {leadership}\n";
 		sb += $"Class: {getUnitClassName()}, Level: {getLevel()}, EXP: {getExperience()}, Weapon: {getWeaponName()}, Armor: {getArmorName()}\n";
-		sb += ("Support Partner: %s (%d)\n", getSupportPartnerName(), relationshipWithSupportPartner));
+		sb += $"Support Partner: {getSupportPartnerName()} {relationshipWithSupportPartner}\n";
 		sb += $"ATK: {attackStrength()}, ACC: {accuracy()}, AVO(Torso): {avoidance(TORSO)}, CRT: {criticalHitRate()}, CRTAVO(Torso): {criticalHitAvoid()}\n";
 
 		return sb;

@@ -262,7 +262,7 @@ public class Nation
 		{
 			return true;
 		}
-		DiplomaticRelation r = diplomaticRelations[n);
+		DiplomaticRelation r = diplomaticRelations[n];
 		if (r == null)
 		{
 			return false;
@@ -276,7 +276,7 @@ public class Nation
 		{
 			return true;
 		}
-		DiplomaticRelation r = diplomaticRelations[n);
+		DiplomaticRelation r = diplomaticRelations[n];
 		if (r == null)
 		{
 			return false;
@@ -286,7 +286,7 @@ public class Nation
 
 	public DiplomaticRelation relationshipWith(Nation n)
 	{
-		DiplomaticRelation dr = diplomaticRelations[n);
+		DiplomaticRelation dr = diplomaticRelations[n];
 		if (dr == null)
 		{
 			dr = new DiplomaticRelation(this, n);
@@ -302,7 +302,7 @@ public class Nation
 		{
 			//TODO
 		}
-		MajorEvent me = diplomaticRelations[n).getCurrentEvent();
+		MajorEvent me = diplomaticRelations[n].getCurrentEvent();
 		if (me is War)
 		{
 			return (War)me;
@@ -365,7 +365,7 @@ public class Nation
 			List<int[]> inv = cityStates[q].getAllItemsInStorgage();
 			for (int w = 0; w < inv.Count; w++)
 			{
-				InventoryIndex.moveItemToInventory(ret, inv[w));
+				InventoryIndex.moveItemToInventory(ret, inv[w]);
 			}
 		}
 
@@ -438,7 +438,7 @@ public class Nation
 			List<Building> b = cityStates[q].getOtherBuildings();
 			for (int w = 0; w < b.Count; w++)
 			{
-				Building build = b[w);
+				Building build = b[w];
 				if (build is Storehouse && build != sender)
 				{
 					ret.Add((Storehouse)build);
@@ -466,7 +466,7 @@ public class Nation
 		return ret;
 	}
 
-	public void declareWar(Nation n, WarCause choice, long date)
+	public void declareWar(Nation n, War.WarCause choice, long date)
 	{
 		War war = new War(this, n, choice, date);
 		DiplomaticRelation dr = diplomaticRelations[n];

@@ -5,7 +5,7 @@ public class Village : Building
 {
 
 
-	protected double populationInThousands;
+	protected float populationInThousands;
 	protected List<Human> veteranResidents;
 	protected CityState cityState;
 
@@ -72,7 +72,7 @@ public class Village : Building
 			}
 			else if (itemArray[0] == InventoryIndex.EDIBLECROP)
 			{
-				int needed = Mathf.min(itemArray[2], (int)Mathf.round(populationInThousands * 200) - feed);
+				int needed = Mathf.Min(itemArray[2], (int)Mathf.RoundToInt(populationInThousands * 200) - feed);
 				itemArray[2] -= needed;
 				feed += needed;
 				bonusFeed += itemArray[2];
@@ -85,7 +85,7 @@ public class Village : Building
 		//		populationInThousands *= percentFed;
 		//		
 		//		//TODO possibly rebalance
-		//		double percentGrowth = Mathf.min((0.0 + bonusFeed) / (populationInThousands * 200), 0.01);
+		//		double percentGrowth = Mathf.Min((0.0 + bonusFeed) / (populationInThousands * 200), 0.01);
 		//		populationInThousands *= (1 + percentGrowth);
 	}
 
@@ -119,17 +119,17 @@ public class Village : Building
 			}
 			else if (itemArray[0] == InventoryIndex.EDIBLECROP)
 			{
-				int needed = Mathf.min(itemArray[2], (int)Mathf.round(populationInThousands * 6000) - feed);
+				int needed = Mathf.Min(itemArray[2], (int)Mathf.RoundToInt(populationInThousands * 6000) - feed);
 				itemArray[2] -= needed;
 				feed += needed;
 				bonusFeed += itemArray[2];
 			}
 		}
-		double percentFed = Mathf.max(0.8, (feed + 0.0) / (populationInThousands * 6000));
+		float percentFed = Mathf.Max(0.8f, (feed + 0.0f) / (populationInThousands * 6000));
 		populationInThousands *= percentFed;
 
 		//TODO possibly rebalance
-		double percentGrowth = Mathf.min((0.0 + bonusFeed) / (populationInThousands * 6000), 0.01);
+		float percentGrowth = Mathf.Min((0.0f + bonusFeed) / (populationInThousands * 6000), 0.01f);
 		populationInThousands *= (1 + percentGrowth);
 	}
 

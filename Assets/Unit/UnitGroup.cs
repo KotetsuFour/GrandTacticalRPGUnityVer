@@ -29,7 +29,7 @@ public class UnitGroup : WMTileOccupant
 	};
 	public static int[][] DEFAULT_LARGE_SHIP_POSITIONS = {
 			new int[] {13, 9}, new int[] {13, 10}, new int[] {11, 7}, new int[] {11, 12}, new int[] {9, 7}, new int[] {9, 12}, new int[] {10, 9}, new int[] {10, 10}, new int[] {12, 6}, new int[] {12, 13},
-			new int[] {7, 8}, new int[] {7, 11}, new int[] {8, 6}, new int[] {8, 13}, new int[] {13, 7}, new int[] {13, 12}, new int[] {15, 7}, new int[] {15, 12}, {5, 7}, {5, 12}
+			new int[] {7, 8}, new int[] {7, 11}, new int[] {8, 6}, new int[] {8, 13}, new int[] {13, 7}, new int[] {13, 12}, new int[] {15, 7}, new int[] {15, 12}, new int[] {5, 7}, new int[] {5, 12}
 	};
 
 	public UnitGroup(Unit firstMember)
@@ -57,7 +57,7 @@ public class UnitGroup : WMTileOccupant
 			add(u[q]);
 		}
 		//Groups that are not under the player's control are AI-controlled
-		isAIControlled = u[0].getAffiliation() != GeneralGameplayManager.getPlayerNation();
+		groupIsAIControlled = u[0].getAffiliation() != GeneralGameplayManager.getPlayerNation();
 
 		//Add yourself to the nation's unitgroup list
 		u[0].getAffiliation().getUnitGroups().Add(this);

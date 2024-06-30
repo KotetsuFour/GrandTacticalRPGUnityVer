@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 public class BattleGround
 {
 
@@ -169,7 +170,11 @@ public class BattleGround
 		BattlegroundTile[][] secondHalf = BattlegroundTileIndex.mapToUse(location[1]);
 		if (isHorizontal)
 		{
-			map = new BattlegroundTile[BattlegroundTileIndex.TILE_DIMENSION * location.Length][BattlegroundTileIndex.TILE_DIMENSION]; //That is, 40x20
+			map = new BattlegroundTile[BattlegroundTileIndex.TILE_DIMENSION * location.Length][]; //That is, 40x20
+			for (int q = 0; q < map.Length; q++)
+            {
+				map[q] = new BattlegroundTile[BattlegroundTileIndex.TILE_DIMENSION];
+            }
 			for (int q = 0; q < firstHalf.Length; q++)
 			{
 				for (int w = 0; w < BattlegroundTileIndex.TILE_DIMENSION; w++)
@@ -187,7 +192,11 @@ public class BattleGround
 		}
 		else
 		{
-			map = new BattlegroundTile[BattlegroundTileIndex.TILE_DIMENSION][BattlegroundTileIndex.TILE_DIMENSION * location.Length]; //That is, 20x40
+			map = new BattlegroundTile[BattlegroundTileIndex.TILE_DIMENSION][]; //That is, 20x40
+			for (int q = 0; q < map.Length; q++)
+			{
+				map[q] = new BattlegroundTile[BattlegroundTileIndex.TILE_DIMENSION * location.Length];
+			}
 			for (int q = 0; q < BattlegroundTileIndex.TILE_DIMENSION; q++)
 			{
 				for (int w = 0; w < firstHalf.Length; w++)
@@ -242,7 +251,7 @@ public class BattleGround
 									 //once all battleground functions and AI are done
 			)
 	{
-		GameUnit alreadyHere = map[to[0]][to[1]].getUnit();
+		Unit alreadyHere = map[to[0]][to[1]].getUnit();
 		if (alreadyHere != null && alreadyHere != unit)
 		{
 			throw new Exception("There is already someone here");
@@ -307,7 +316,7 @@ public class BattleGround
 			UnitGroup group = combatants[q];
 			if (group.getMembers().Count == 0)
 			{
-				combatants.Remove(q);
+				combatants.RemoveAt(q);
 				q--;
 				continue;
 			}

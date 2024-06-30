@@ -21,7 +21,7 @@ public class OffensiveStaff : Staff
 		this.power = power;
 	}
 
-	public bool effect(GameUnit user, GameUnit target, int bodyPart)
+	public bool effect(Unit user, Unit target, int bodyPart)
 	{
 		//TODO
 		//If status effect is injury (that is, if this is a disintegration staff)

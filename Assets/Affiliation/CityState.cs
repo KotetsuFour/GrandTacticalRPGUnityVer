@@ -325,7 +325,7 @@ public class CityState
 						{
 							ret.Add(new OldAgeDeathReport(vet));
 						}
-						b.getVeterans().remove(w);
+						b.getVeterans().RemoveAt(w);
 						w--;
 					}
 				}
@@ -399,7 +399,7 @@ public class CityState
 						{
 							ret.Add(new OldAgeDeathReport(vet));
 						}
-						b.getVeterans().remove(w);
+						b.getVeterans().RemoveAt(w);
 						w--;
 					}
 				}

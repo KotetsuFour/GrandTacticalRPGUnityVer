@@ -50,6 +50,7 @@ public class InventoryIndex
 		}
 		catch (Exception ex)
 		{
+			Debug.Log(ex);
 			return null;
 		}
 	}
@@ -120,7 +121,7 @@ public class InventoryIndex
 		//TODO probably rebalance rarities
 		Resource stone = new Resource("Stone", 0, 0, 0, 0, 2, null);
 		addResource(stone);
-		Resource clay = new Resource("Clay", 0, 0, 0, 0, 1, new WorldMapTileType[] { WorldMapTileType.SWAMP, WorldMapTileType.SNOWY_PLAIN });
+		Resource clay = new Resource("Clay", 0, 0, 0, 0, 1, new WorldMapTile.WorldMapTileType[] { WorldMapTile.WorldMapTileType.SWAMP, WorldMapTile.WorldMapTileType.SNOWY_PLAIN });
 		addResource(clay);
 		Resource bronze = new Resource("Bronze", 0, 0, 0, 0, (float)0.4, null);
 		addResource(bronze);
@@ -132,9 +133,9 @@ public class InventoryIndex
 		addResource(silver);
 		Resource gold = new Resource("Gold", 0, 0, 0, 0, (float)0.02, null);
 		addResource(gold);
-		Resource obsidian = new Resource("Obsidian", 0, 0, 0, 0, (float)0.1, new WorldMapTileType[] { WorldMapTileType.MOUNTAIN, WorldMapTileType.SNOWY_MOUNTAIN });
+		Resource obsidian = new Resource("Obsidian", 0, 0, 0, 0, (float)0.1, new WorldMapTile.WorldMapTileType[] { WorldMapTile.WorldMapTileType.MOUNTAIN, WorldMapTile.WorldMapTileType.SNOWY_MOUNTAIN });
 		addResource(obsidian);
-		Resource glass = new Resource("Glass", 0, 0, 0, 0, (float)0.2, new WorldMapTileType[] { WorldMapTileType.DESERT });
+		Resource glass = new Resource("Glass", 0, 0, 0, 0, (float)0.2, new WorldMapTile.WorldMapTileType[] { WorldMapTile.WorldMapTileType.DESERT });
 		addResource(glass);
 	}
 	private static void generateStandardWeapons()

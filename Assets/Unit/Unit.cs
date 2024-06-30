@@ -14,7 +14,7 @@ public abstract class Unit : BFTileOccupant
 	protected string nickname;
 	protected UnitGroup group;
 	protected int[] activeEffects;
-	protected GameBFTileOccupant passenger;
+	protected BFTileOccupant passenger;
 	protected int battlePositionX;
 	protected int battlePositionY;
 	protected int[] bodyPartsCurrentHP;
@@ -107,7 +107,7 @@ public abstract class Unit : BFTileOccupant
 	{
 		return unitClass;
 	}
-	public GameBFTileOccupant getPassenger()
+	public BFTileOccupant getPassenger()
 	{
 		return passenger;
 	}
@@ -438,7 +438,7 @@ public abstract class Unit : BFTileOccupant
 		{
 			return 0;
 		}
-		return level + (20 * (unitClass.getTier() - 1));
+		return level /*+ (20 * (unitClass.getTier() - 1))*/;
 	}
 
 	/**

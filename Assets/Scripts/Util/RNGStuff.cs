@@ -163,7 +163,7 @@ public static NamingConvention[] LANGUAGES_IN_USE = {new PrimitiveNamingConventi
 
 	public static int nextInt(int range)
 	{
-		return Random.Range(0, range) + 1;
+		return Random.Range(0, range);
 	}
 
 	public static bool nextBoolean()

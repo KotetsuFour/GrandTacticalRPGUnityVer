@@ -36,7 +36,7 @@ public class BattlegroundTileIndex
 		tileMap.Add('t', BattlegroundTile.BattlegroundTileType.THRONE);
 		tileMap.Add('T', BattlegroundTile.BattlegroundTileType.TREE);
 		tileMap.Add('a', BattlegroundTile.BattlegroundTileType.WALL);
-		tileMap.Add('r', BattlegroundTile.BattlegroundTileType.WARP_TILE);
+		tileMap.Add('O', BattlegroundTile.BattlegroundTileType.WARP_TILE);
 		tileMap.Add('w', BattlegroundTile.BattlegroundTileType.WASTELAND);
 		tileMap.Add('W', BattlegroundTile.BattlegroundTileType.WETLAND);
 
@@ -77,11 +77,13 @@ public class BattlegroundTileIndex
 		foreach (WorldMapTile.WorldMapTileType m in vals)
 		{
 			char[,] c = maps[m];
+			/*
 			if (c.Length != 20 || c.Length != 20)
 			{
 				throw new Exception("The map for " + m.getName() +
 						" is " + c.Length + " by " + c.Length);
 			}
+			*/
 		}
 	}
 

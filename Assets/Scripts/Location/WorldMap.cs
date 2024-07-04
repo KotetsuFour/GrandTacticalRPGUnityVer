@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LibNoise;
+using System.IO;
+
 public class WorldMap
 {
 
@@ -26,6 +29,118 @@ public class WorldMap
 		}
 	}
 
+	public void generateTerrain()
+    {
+		Perlin heatMap = new Perlin();
+		Perlin moistureMap = new Perlin();
+		Perlin heightMap = new Perlin();
+		Perlin magicTypeMap = new Perlin();
+		Perlin magicStrengthMap = new Perlin();
+		heatMap.Seed = 108439482;
+		Debug.Log(heatMap.Seed);
+		//set frequency, persistence, lacunarity, and octave count
+		setPerlinSettings(new Perlin[] { heatMap, moistureMap, heightMap, magicTypeMap, magicStrengthMap },
+			2, 2, 2, 2);
+
+		StreamWriter output = new StreamWriter("Assets/noise.txt");
+
+		for (int q = 0; q < map.Length; q++)
+        {
+			for (int w = 0; w < map[q].Length; w++)
+            {
+				double heat = heatMap.GetValue(q, w, 0);
+				double moisture = moistureMap.GetValue(q, w, 0);
+				double height = heightMap.GetValue(q, w, 0);
+				double magic = magicTypeMap.GetValue(q, w, 0);
+				double magicStrength = magicStrengthMap.GetValue(q, w, 0);
+
+				int magicType = magic > 0.67 ? 0 : magic > 0.33 ? 1 : 2;
+
+				output.Write($"{(float)heat}");
+
+				if (height < 0.3)
+				{
+					map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DEEP_WATER, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+				}
+				else if (height < 0.4)
+                {
+					if (heat < 0.2)
+                    {
+						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.GLACIER, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+					}
+					else
+                    {
+						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SHALLOW_WATER, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+					}
+				}
+				else if (height < 0.7)
+                {
+					if (heat < 0.2)
+                    {
+						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SNOWY_PLAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+					}
+					else if (heat < 0.8)
+                    {
+						if (moisture < 0.2)
+                        {
+							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DESERT, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+						}
+						else if (moisture < 0.6)
+                        {
+							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.PLAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+						}
+						else if (moisture < 0.9)
+                        {
+							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.FOREST, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+						}
+						else
+                        {
+							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DENSE_FOREST, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+						}
+					}
+					else
+                    {
+						if (moisture < 0.5)
+                        {
+							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DESERT, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+						} else
+                        {
+							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SWAMP, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+						}
+					}
+				}
+				else if (height < 0.9)
+                {
+					if (heat < 0.2)
+                    {
+						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SNOWY_MOUNTAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+					}
+					else
+                    {
+						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.MOUNTAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+					}
+				}
+				else
+                {
+					map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SNOWY_MOUNTAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
+				}
+			}
+			output.Write("\n");
+		}
+		output.Close();
+	}
+
+	private void setPerlinSettings(Perlin[] perlins, double freq, double persist, double lacun,
+		int octave)
+    {
+		foreach (Perlin p in perlins)
+        {
+			p.Frequency = freq;
+			p.Persistence = persist;
+			p.Lacunarity = lacun;
+			p.OctaveCount = octave;
+        }
+    }
 	public WorldMapTile at(int x, int y)
 	{
 		return map[x][y];

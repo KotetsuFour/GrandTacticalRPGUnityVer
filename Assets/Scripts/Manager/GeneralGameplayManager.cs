@@ -112,7 +112,7 @@ public static class GeneralGameplayManager
 		cs.incrementSize();
 	}
 
-	public static void initializePlayerNation(string name, int type, string capitalName,
+	public static void initializePlayerNation(string name, string capitalName, int type,
 			int language)
 	{
 		//TODO procedural generation
@@ -332,7 +332,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] - 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] - 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null || check.getAffiliation() == group.getAffiliation())
@@ -353,7 +353,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] + 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] + 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null || check.getAffiliation() == group.getAffiliation())
@@ -374,7 +374,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] - 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] - 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null || check.getAffiliation() == group.getAffiliation())
@@ -395,7 +395,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] + 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] + 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null || check.getAffiliation() == group.getAffiliation())
@@ -436,7 +436,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] - 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] - 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -455,7 +455,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] + 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] + 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -474,7 +474,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] - 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] - 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -493,7 +493,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] + 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] + 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -531,7 +531,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] - 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] - 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& check.getBattle() == null)
@@ -544,11 +544,11 @@ public static class GeneralGameplayManager
 				int checkX = from[0] + 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] + 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant())
 				{
-					if ((traversable[check] == null || (int)traversable[check] < from[2])
+					if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 							&& from[2] - check.getMoveCost(group) >= 0
 							&& check.isVacant()
 							&& check.getBattle() == null)
@@ -562,11 +562,11 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] - 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] - 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant())
 				{
-					if ((traversable[check] == null || (int)traversable[check] < from[2])
+					if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 							&& from[2] - check.getMoveCost(group) >= 0
 							&& check.isVacant()
 							&& check.getBattle() == null)
@@ -580,11 +580,11 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] + 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] + 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant())
 				{
-					if ((traversable[check] == null || (int)traversable[check] < from[2])
+					if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 							&& from[2] - check.getMoveCost(group) >= 0
 							&& check.isVacant()
 							&& check.getBattle() == null)
@@ -617,7 +617,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] - 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] - 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -633,7 +633,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] + 1;
 				int checkY = from[1];
 				WorldMapTile check = worldMap.at(from[0] + 1, from[1]);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -649,7 +649,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] - 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] - 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -665,7 +665,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] + 1;
 				WorldMapTile check = worldMap.at(from[0], from[1] + 1);
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(group) >= 0
 						&& check.isVacant()
 						&& (check.getOwner() == null
@@ -700,7 +700,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] - 1;
 				int checkY = from[1];
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(u) >= 0
 						&& check.isVacant())
 				{
@@ -712,7 +712,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] + 1;
 				int checkY = from[1];
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(u) >= 0
 						&& check.isVacant())
 				{
@@ -724,7 +724,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] - 1;
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(u) >= 0
 						&& check.isVacant())
 				{
@@ -736,7 +736,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] + 1;
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - check.getMoveCost(u) >= 0
 						&& check.isVacant())
 				{
@@ -792,7 +792,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] - 1;
 				int checkY = from[1];
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - 1 >= 0)
 				{
 					searchList.add(new int[] { checkX, checkY, from[2] - 1 });
@@ -803,7 +803,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0] + 1;
 				int checkY = from[1];
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - 1 >= 0)
 				{
 					searchList.add(new int[] { checkX, checkY, from[2] - 1 });
@@ -814,7 +814,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] - 1;
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - 1 >= 0)
 				{
 					searchList.add(new int[] { checkX, checkY, from[2] - 1 });
@@ -825,7 +825,7 @@ public static class GeneralGameplayManager
 				int checkX = from[0];
 				int checkY = from[1] + 1;
 				BattlegroundTile check = battleground.getMap()[checkX][checkY];
-				if ((traversable[check] == null || (int)traversable[check] < from[2])
+				if ((!traversable.ContainsKey(check) || (int)traversable[check] < from[2])
 						&& from[2] - 1 >= 0)
 				{
 					searchList.add(new int[] { checkX, checkY, from[2] - 1 });

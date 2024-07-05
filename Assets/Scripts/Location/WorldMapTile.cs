@@ -131,18 +131,18 @@ public class WorldMapTile
 
 	public class WorldMapTileType
 	{
-		public static WorldMapTileType PLAIN = new WorldMapTileType("Plain", 1, 1, 6, /*Color.LAWNGREEN*/Color.black);
-		public static WorldMapTileType DESERT = new WorldMapTileType("Desert", 2, 0.2f, 7, /*Color.YELLOW */ Color.black);
-		public static WorldMapTileType FOREST = new WorldMapTileType("Forest", 2, 7, 6, /*Color.FORESTGREEN*/Color.black);
-		public static WorldMapTileType DENSE_FOREST = new WorldMapTileType("Dense Forest", 5, 0.5f, 4, /*Color.DARKGREEN*/Color.black);
-		public static WorldMapTileType MOUNTAIN = new WorldMapTileType("Mountain", 4, 5, 10, /*Color.MEDIUMPURPLE*/Color.black);
-		public static WorldMapTileType SHALLOW_WATER = new WorldMapTileType("Shallow Water", 5, 0.3f, 1, /*Color.LIGHTBLUE*/Color.black);
-		public static WorldMapTileType DEEP_WATER = new WorldMapTileType("Deep Water", int.MaxValue, 0, 0, /*Color.BLUE*/Color.black);
-		public static WorldMapTileType SNOWY_PLAIN = new WorldMapTileType("Snowy Plain", 1, 0.3f, 5, /*Color.WHITE*/Color.black);
-		public static WorldMapTileType SNOWY_MOUNTAIN = new WorldMapTileType("Snowy Mountain", 4, 0.3f, 8, /*Color.CADETBLUE*/Color.black);
-		public static WorldMapTileType SWAMP = new WorldMapTileType("Swamp", 4, 0.5f, 4, /*Color.DARKOLIVEGREEN*/Color.black);
-		public static WorldMapTileType WASTELAND = new WorldMapTileType("Wasteland", 1, 0, 5, /*Color.TAN*/Color.black);
-		public static WorldMapTileType GLACIER = new WorldMapTileType("Glacier", 2, 0.2f, 2, /*Color.ALICEBLUE*/Color.black);
+		public static WorldMapTileType PLAIN = new WorldMapTileType("Plain", 1, 1, 6, new Color(0.5f, 1, 0), 0.5f);
+		public static WorldMapTileType DESERT = new WorldMapTileType("Desert", 2, 0.2f, 7, new Color(1, 1, 0), 0.5f);
+		public static WorldMapTileType FOREST = new WorldMapTileType("Forest", 2, 7, 6, new Color(0.03f, 0.8f, 0), 0.5f);
+		public static WorldMapTileType DENSE_FOREST = new WorldMapTileType("Dense Forest", 5, 0.5f, 4, new Color(0.01f, 0.3f, 0), 0.5f);
+		public static WorldMapTileType MOUNTAIN = new WorldMapTileType("Mountain", 4, 5, 10, new Color(0.45f, 0.4f, 0.5f), 2);
+		public static WorldMapTileType SHALLOW_WATER = new WorldMapTileType("Shallow Water", 5, 0.3f, 1, new Color(0, 0.9f, 1), 0);
+		public static WorldMapTileType DEEP_WATER = new WorldMapTileType("Deep Water", int.MaxValue, 0, 0, new Color(0, 0, 1), 0);
+		public static WorldMapTileType SNOWY_PLAIN = new WorldMapTileType("Snowy Plain", 1, 0.3f, 5, new Color(1, 1, 1), 0.5f);
+		public static WorldMapTileType SNOWY_MOUNTAIN = new WorldMapTileType("Snowy Mountain", 4, 0.3f, 8, new Color(0.7f, 0.7f, 0.7f), 2);
+		public static WorldMapTileType SWAMP = new WorldMapTileType("Swamp", 4, 0.5f, 4, new Color(0.3f, 0.4f, 0.3f), 0.5f);
+		public static WorldMapTileType WASTELAND = new WorldMapTileType("Wasteland", 1, 0, 5, new Color(0.48f, 0.37f, 0), 0.5f);
+		public static WorldMapTileType GLACIER = new WorldMapTileType("Glacier", 2, 0.2f, 2, new Color(0.7f, 1, 1), 0.25f);
 
 
 		private string name;
@@ -150,8 +150,9 @@ public class WorldMapTile
 		private float proliferability;
 		private int minability;
 		private Color displayColor;
+		private float height;
 		private WorldMapTileType(string name, int moveCost, float proliferability,
-				int minability, Color displayColor)
+				int minability, Color displayColor, float height)
 		{
 			this.name = name;
 			this.moveCost = moveCost;
@@ -162,6 +163,7 @@ public class WorldMapTile
 			this.proliferability = proliferability;
 			this.minability = minability;
 			this.displayColor = displayColor;
+			this.height = height;
 		}
 
 		public string getName()
@@ -186,6 +188,10 @@ public class WorldMapTile
 		{
 			return displayColor;
 		}
+		public float getHeight()
+        {
+			return height;
+        }
 	}
 
 }

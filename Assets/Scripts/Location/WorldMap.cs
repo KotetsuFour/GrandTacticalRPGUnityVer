@@ -38,9 +38,9 @@ public class WorldMap
 		Perlin magicStrengthMap = new Perlin();
 		heatMap.Seed = 108439482;
 		Debug.Log(heatMap.Seed);
-		//set frequency, persistence, lacunarity, and octave count
+		//set frequency, persistence (between 0 and 1), lacunarity (odd number), and octave count
 		setPerlinSettings(new Perlin[] { heatMap, moistureMap, heightMap, magicTypeMap, magicStrengthMap },
-			2, 2, 2, 2);
+			0.05, 0.5, 3, 2);
 
 		StreamWriter output = new StreamWriter("Assets/noise.txt");
 
@@ -48,7 +48,7 @@ public class WorldMap
         {
 			for (int w = 0; w < map[q].Length; w++)
             {
-				double heat = heatMap.GetValue(q, w, 0);
+				double heat = heatMap.GetValue(q, w, 1);
 				double moisture = moistureMap.GetValue(q, w, 0);
 				double height = heightMap.GetValue(q, w, 0);
 				double magic = magicTypeMap.GetValue(q, w, 0);
@@ -58,13 +58,13 @@ public class WorldMap
 
 				output.Write($"{(float)heat}");
 
-				if (height < 0.3)
+				if (height < -0.2)
 				{
 					map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DEEP_WATER, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 				}
-				else if (height < 0.4)
+				else if (height < -0.1)
                 {
-					if (heat < 0.2)
+					if (heat < -0.5)
                     {
 						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.GLACIER, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 					}
@@ -75,21 +75,21 @@ public class WorldMap
 				}
 				else if (height < 0.7)
                 {
-					if (heat < 0.2)
+					if (heat < -0.5)
                     {
 						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SNOWY_PLAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 					}
-					else if (heat < 0.8)
+					else if (heat < 0.7)
                     {
-						if (moisture < 0.2)
+						if (moisture < -0.5)
                         {
 							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DESERT, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 						}
-						else if (moisture < 0.6)
+						else if (moisture < 0.3)
                         {
 							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.PLAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 						}
-						else if (moisture < 0.9)
+						else if (moisture < 0.8)
                         {
 							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.FOREST, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 						}
@@ -100,7 +100,7 @@ public class WorldMap
 					}
 					else
                     {
-						if (moisture < 0.5)
+						if (moisture < 0.2)
                         {
 							map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.DESERT, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 						} else
@@ -111,7 +111,7 @@ public class WorldMap
 				}
 				else if (height < 0.9)
                 {
-					if (heat < 0.2)
+					if (heat < -0.5)
                     {
 						map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SNOWY_MOUNTAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 					}

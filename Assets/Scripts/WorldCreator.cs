@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class WorldCreator : MonoBehaviour
 {
@@ -299,7 +300,7 @@ public class WorldCreator : MonoBehaviour
 
         GeneralGameplayManager.getWorldMap().generateTerrain();
 
-        //TODO switch scene
+        SceneManager.LoadScene("MainGame");
     }
 
     public void switchToPane(string pane)

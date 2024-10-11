@@ -1,72 +1,6 @@
 public class Demeanor
 {
 
-	public static Demeanor SERIOUS = new Demeanor("Serious", 0, 4, 0,
-			"Yes, I agree.",
-			"I can see that.",
-			"Hmm... I disagree.");
-	public static Demeanor RELAXED = new Demeanor("Relaxed", 0, 0, 3,
-			"Yeah, dude...",
-			"Oh, cool...",
-			"Eh, I dunno...");
-	public static Demeanor DETERMINED = new Demeanor("Determined", 0, 3, 1,
-			"For sure!",
-			"Ah, I see.",
-			"I don't know about that.");
-	public static Demeanor ENTHUSIASTIC = new Demeanor("Enthusiastic", 0, 1, 1,
-			"",
-			"",
-			"");
-	public static Demeanor NERVOUS = new Demeanor("Nervous", 0, 2, 1,
-			"Oh, yeah. Heh.",
-			"Ah.",
-			"Oh...");
-	public static Demeanor FRIENDLY = new Demeanor("Friendly", 0, 1, 3,
-			"Totally, dude!",
-			"Huh, interesting way to think about it!",
-			"Eh, we'll have to agree to disagree.");
-	public static Demeanor POLITE = new Demeanor("Polite", 0, 0, 1,
-			"",
-			"",
-			"");
-	public static Demeanor CURIOUS = new Demeanor("Curious", 0, 4, 3,
-			"Yes, I think so too!",
-			"That's an interesting way to think about it.",
-			"I'm having trouble understanding...");
-	public static Demeanor DISMISSIVE = new Demeanor("Dismissive", 0, 0, 0,
-			"",
-			"",
-			"");
-	public static Demeanor CHARISMATIC = new Demeanor("Charismatic", 0, 4, 1,
-			"",
-			"",
-			"");
-	public static Demeanor ASSERTIVE = new Demeanor("Assertive", 0, 3, 3,
-			"",
-			"",
-			"");
-	public static Demeanor REFLECTIVE = new Demeanor("Reflective", 0, 1, 0,
-			"",
-			"",
-			"");
-	public static Demeanor ABSENT = new Demeanor("Absent", 0, 1, 3,
-			"Heh.",
-			"Sure.",
-			"Meh.");
-	public static Demeanor CREEPY = new Demeanor("Creepy", 1, 3, 1,
-			"You get me...",
-			"Hehehe.",
-			"...");
-	public static Demeanor SNOBBISH = new Demeanor("Snobbish", 1, 4, 2,
-			"That's what I keep telling people!",
-			"Yeah, I guess.",
-			"Incorrect. Try again.");
-	public static Demeanor INTIMIDATING = new Demeanor("Intimidating", 1, 3, 2,
-			"Indeed.",
-			"Hmm...",
-			"You... wanna run that by me again?");
-
-
 	public static int BROW_BLANK = 0;
 	public static int BROW_HAPPY = 1;
 	public static int BROW_AFRAID = 2;
@@ -78,6 +12,71 @@ public class Demeanor
 	public static int MOUTH_UPSET = 2;
 	public static int MOUTH_SLANT = 3;
 
+
+	public static Demeanor SERIOUS = new Demeanor("Serious", 0, BROW_CONFUSED, MOUTH_BLANK,
+			"Yes, I agree.",
+			"I can see that.",
+			"Hmm... I disagree.");
+	public static Demeanor RELAXED = new Demeanor("Relaxed", 0, BROW_BLANK, MOUTH_SLANT,
+			"Yeah, dude...",
+			"Oh, cool...",
+			"Eh, I dunno...");
+	public static Demeanor DETERMINED = new Demeanor("Determined", 0, BROW_ANGRY, MOUTH_HAPPY,
+			"For sure!",
+			"Ah, I see.",
+			"I don't know about that.");
+	public static Demeanor ENTHUSIASTIC = new Demeanor("Enthusiastic", 0, BROW_HAPPY, MOUTH_HAPPY,
+			"",
+			"",
+			"");
+	public static Demeanor NERVOUS = new Demeanor("Nervous", 0, BROW_AFRAID, MOUTH_HAPPY,
+			"Oh, yeah. Heh.",
+			"Ah.",
+			"Oh...");
+	public static Demeanor FRIENDLY = new Demeanor("Friendly", 0, BROW_HAPPY, MOUTH_SLANT,
+			"Totally, dude!",
+			"Huh, interesting way to think about it!",
+			"Eh, we'll have to agree to disagree.");
+	public static Demeanor POLITE = new Demeanor("Polite", 0, BROW_BLANK, MOUTH_HAPPY,
+			"",
+			"",
+			"");
+	public static Demeanor CURIOUS = new Demeanor("Curious", 0, BROW_CONFUSED, MOUTH_SLANT,
+			"Yes, I think so too!",
+			"That's an interesting way to think about it.",
+			"I'm having trouble understanding...");
+	public static Demeanor DISMISSIVE = new Demeanor("Dismissive", 0, BROW_BLANK, MOUTH_BLANK,
+			"",
+			"",
+			"");
+	public static Demeanor CHARISMATIC = new Demeanor("Charismatic", 0, BROW_CONFUSED, MOUTH_HAPPY,
+			"",
+			"",
+			"");
+	public static Demeanor ASSERTIVE = new Demeanor("Assertive", 0, BROW_ANGRY, MOUTH_SLANT,
+			"",
+			"",
+			"");
+	public static Demeanor REFLECTIVE = new Demeanor("Reflective", 0, BROW_HAPPY, MOUTH_BLANK,
+			"",
+			"",
+			"");
+	public static Demeanor ABSENT = new Demeanor("Absent", 0, BROW_HAPPY, MOUTH_SLANT,
+			"Heh.",
+			"Sure.",
+			"Meh.");
+	public static Demeanor CREEPY = new Demeanor("Creepy", 1, BROW_ANGRY, MOUTH_HAPPY,
+			"You get me...",
+			"Hehehe.",
+			"...");
+	public static Demeanor SNOBBISH = new Demeanor("Snobbish", 1, BROW_CONFUSED, MOUTH_UPSET,
+			"That's what I keep telling people!",
+			"Yeah, I guess.",
+			"Incorrect. Try again.");
+	public static Demeanor INTIMIDATING = new Demeanor("Intimidating", 1, BROW_ANGRY, MOUTH_UPSET,
+			"Indeed.",
+			"Hmm...",
+			"You... wanna run that by me again?");
 
 
 	private string displayName;

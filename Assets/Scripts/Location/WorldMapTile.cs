@@ -10,6 +10,8 @@ public class WorldMapTile
 	private int magicType;
 	private WMTileOccupant groupPresent;
 
+	public Tile tileModel;
+
 	public WorldMapTile(WorldMapTileType type, int magicPotency, int magicType)
 	{
 		this.type = type;

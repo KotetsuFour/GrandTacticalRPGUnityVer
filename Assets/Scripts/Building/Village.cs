@@ -16,8 +16,9 @@ public class Village : Building
 	public static int RESISTANCE = 10;
 	public static int MAX_VETERANS = 5;
 
-	public Village(string name, CityState cityState)
-			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, Human.completelyRandomHuman(cityState))
+	public Village(string name, CityState cityState, WorldMapTile location)
+			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, Human.completelyRandomHuman(cityState),
+				location)
 	{
 		veteranResidents = new List<Human>(5);
 		//Between 1 and 10 thousand residents will arrive
@@ -25,8 +26,8 @@ public class Village : Building
 		this.cityState = cityState;
 	}
 
-	public Village(CityState cityState)
-			: this(RNGStuff.randomName(cityState.getLanguage()), cityState)
+	public Village(CityState cityState, WorldMapTile location)
+			: this(RNGStuff.randomName(cityState.getLanguage()), cityState, location)
 	{
 	}
 

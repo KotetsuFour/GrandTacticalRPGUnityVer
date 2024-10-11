@@ -6,12 +6,11 @@ public abstract class GoodsDeliverer : Building
 
 
 	protected Building customer;
-protected WorldMapTile location;
-protected bool continuousDelivery;
+	protected bool continuousDelivery;
 
 public GoodsDeliverer(string name, int maxStructuralIntegrity, int durability,
 		int resistance, Human owner, WorldMapTile location)
-		: base(name, maxStructuralIntegrity, durability, resistance, owner)
+		: base(name, maxStructuralIntegrity, durability, resistance, owner, location)
 {
 	this.location = location;
 	this.continuousDelivery = false;

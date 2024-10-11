@@ -11,8 +11,8 @@ public class Port : Building
 
 	private List<Ship> ships;
 
-	public Port(string name, Human owner)
-			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, owner)
+	public Port(string name, Human owner, WorldMapTile location)
+			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, owner, location)
 	{
 		ships = new List<Ship>(MAX_NUM_SHIPS);
 		// TODO Auto-generated constructor stub

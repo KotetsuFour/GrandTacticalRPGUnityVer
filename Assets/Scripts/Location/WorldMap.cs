@@ -36,19 +36,17 @@ public class WorldMap
 		Perlin heightMap = new Perlin();
 		Perlin magicTypeMap = new Perlin();
 		Perlin magicStrengthMap = new Perlin();
-		heatMap.Seed = 108439482;
-		Debug.Log(heatMap.Seed);
 		//set frequency, persistence (between 0 and 1), lacunarity (odd number), and octave count
 		setPerlinSettings(new Perlin[] { heatMap, moistureMap, heightMap, magicTypeMap, magicStrengthMap },
 			0.05, 0.5, 3, 2);
 
-		StreamWriter output = new StreamWriter("Assets/noise.txt");
+//		StreamWriter output = new StreamWriter("Assets/noise.txt");
 
 		for (int q = 0; q < map.Length; q++)
         {
 			for (int w = 0; w < map[q].Length; w++)
             {
-				double heat = heatMap.GetValue(q, w, 1);
+				double heat = heatMap.GetValue(q, w, 0);
 				double moisture = moistureMap.GetValue(q, w, 0);
 				double height = heightMap.GetValue(q, w, 0);
 				double magic = magicTypeMap.GetValue(q, w, 0);
@@ -56,7 +54,7 @@ public class WorldMap
 
 				int magicType = magic > 0.67 ? 0 : magic > 0.33 ? 1 : 2;
 
-				output.Write($"{(float)heat}");
+//				output.Write($"{(float)heat}");
 
 				if (height < -0.2)
 				{
@@ -125,9 +123,9 @@ public class WorldMap
 					map[q][w] = new WorldMapTile(WorldMapTile.WorldMapTileType.SNOWY_MOUNTAIN, Mathf.RoundToInt((float)magicStrength * 100), magicType);
 				}
 			}
-			output.Write("\n");
+//			output.Write("\n");
 		}
-		output.Close();
+//		output.Close();
 	}
 
 	private void setPerlinSettings(Perlin[] perlins, double freq, double persist, double lacun,

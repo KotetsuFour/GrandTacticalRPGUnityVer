@@ -19,6 +19,10 @@ public class WorldMapDisplay : MonoBehaviour
     [SerializeField] private Material swamp;
     [SerializeField] private Material wasteland;
     [SerializeField] private Material glacier;
+
+    [SerializeField] private Material movableHighlight;
+    [SerializeField] private Material attackableHighlight;
+    [SerializeField] private Material interactableHighlight;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,15 +47,15 @@ public class WorldMapDisplay : MonoBehaviour
             {
                 for (int w = 0; w < WorldMap.SQRT_OF_MAP_SIZE; w++)
                 {
-                    Debug.Log($"Making tile {q},{w}");
-                    Tile toPlace = Instantiate(tile, new Vector3(q, 0, w), Quaternion.identity);
-                    tile.setTile(map.at(q, w), q, w);
-                    tile.adjustHeight();
-                    StaticData.findDeepChild(tile.transform, "Model")
-                        .GetComponent<MeshRenderer>().material = materials[map.at(q, w).getType()];
+                    Tile toPlace = Instantiate(tile, new Vector3(q, 0, w), Quaternion.identity, transform);
+                    toPlace.draw(q, w, map.at(q, w));
+                    toPlace.setMaterial(materials[map.at(q, w).getType()]);
+                    toPlace.updateDeco();
+                    map.at(q, w).tileModel = toPlace;
                     tiles[q, w] = toPlace;
                 }
             }
+            GameObject.Find("PlayerInput").GetComponent<PlayerInput>().initialize();
         }
     }
 

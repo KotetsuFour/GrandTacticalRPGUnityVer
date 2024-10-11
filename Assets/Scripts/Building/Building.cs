@@ -11,6 +11,7 @@ public abstract class Building
 	protected int resistance;
 	protected Human owner;
 	protected List<int[]> materials;
+	protected WorldMapTile location;
 
 	public static string COLISEUM = "Coliseum";
 	public static string HOSPITAL = "Hospital";
@@ -33,7 +34,7 @@ public abstract class Building
 	public static string TRADE_CENTER = "Trade Center";
 	
 	public Building(string name, int maxStructuralIntegrity, int durability, int resistance,
-			Human owner)
+			Human owner, WorldMapTile location)
 	{
 		this.name = name;
 		this.maxStructuralIntegrity = maxStructuralIntegrity;
@@ -42,6 +43,7 @@ public abstract class Building
 		this.resistance = resistance;
 		this.owner = owner;
 		this.materials = new List<int[]>();
+		this.location = location;
 	}
 
 	public string getName()
@@ -143,6 +145,11 @@ public abstract class Building
 	{
 		return resistance;
 	}
+
+	public WorldMapTile getLocation()
+    {
+		return location;
+    }
 
 	public float percentageHealth()
 	{

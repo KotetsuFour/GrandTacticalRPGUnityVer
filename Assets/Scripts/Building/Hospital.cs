@@ -18,8 +18,8 @@ public class Hospital : Building
 	public static int DURABILITY = 10;
 	public static int RESISTANCE = 10;
 
-	public Hospital(string name, Human owner)
-			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, owner)
+	public Hospital(string name, Human owner, WorldMapTile location)
+			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, owner, location)
 	{
 		patients = new List<Human>();
 		// TODO Auto-generated constructor stub

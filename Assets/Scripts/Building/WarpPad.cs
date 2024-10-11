@@ -10,8 +10,8 @@ public class WarpPad : Building
 	public static int DURABILITY = 10;
 	public static int RESISTANCE = 10;
 
-	public WarpPad(string name, Human owner)
-			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, owner)
+	public WarpPad(string name, Human owner, WorldMapTile location)
+			: base(name, MAX_INTEGRITY, DURABILITY, RESISTANCE, owner, location)
 	{
 		// TODO Auto-generated constructor stub
 	}

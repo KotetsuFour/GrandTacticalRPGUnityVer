@@ -1332,30 +1332,30 @@ public static int RIGHT_ARM = 2;
 	{
 		int[] app = new int[15];
 		//TODO make sure numbers are all right
-		app[0] = RNGStuff.nextInt(15); //Face shape
-		app[1] = RNGStuff.nextInt(2); //Lips
-		app[2] = RNGStuff.nextInt(15); //Nose shape
-		app[3] = RNGStuff.nextInt(7); //Ear shape
-		app[4] = RNGStuff.nextInt(15); //Eye shape
-		app[5] = RNGStuff.nextInt(7); //Iris appearance (Unused)
-		app[6] = RNGStuff.nextInt(3); //Eyebrows
-		app[7] = RNGStuff.nextInt(15); //Hairstyle
+		app[Portrait.HUMAN_FACE_IDX] = RNGStuff.nextInt(PortraitDictionary.faceList.Length); //Face shape (15)
+		app[Portrait.HUMAN_MOUTH_IDX] = RNGStuff.nextInt(PortraitDictionary.mouthList.Length); //Lips (3)
+		app[Portrait.HUMAN_NOSE_IDX] = RNGStuff.nextInt(PortraitDictionary.noseList.Length); //Nose shape (15)
+		app[Portrait.HUMAN_EARS_IDX] = RNGStuff.nextInt(PortraitDictionary.earsList.Length); //Ear shape (7)
+		app[Portrait.HUMAN_EYES_IDX] = RNGStuff.nextInt(PortraitDictionary.eyesList.Length); //Eye shape (15)
+		app[Portrait.HUMAN_IRIS_IDX] = RNGStuff.nextInt(PortraitDictionary.irisList.Length); //Iris appearance (7)
+		app[Portrait.HUMAN_BROWS_IDX] = RNGStuff.nextInt(PortraitDictionary.browsList.Length); //Eyebrows (3)
+		app[Portrait.HUMAN_HAIR_IDX] = RNGStuff.nextInt(PortraitDictionary.frontHairList.Length); //Hairstyle (15)
 		if (RNGStuff.nextBoolean())
 		{
-			app[8] = RNGStuff.nextInt(12); //Mustache style
-			app[9] = RNGStuff.nextInt(12); //Beard style
+			app[Portrait.HUMAN_STACHE_IDX] = RNGStuff.nextInt(PortraitDictionary.stacheList.Length); //Mustache style (12)
+			app[Portrait.HUMAN_BEARD_IDX] = RNGStuff.nextInt(PortraitDictionary.beardList.Length); //Beard style (12)
 		}
 		else
 		{
-			app[8] = 0; //No mustache
-			app[9] = 0; //No beard
+			app[Portrait.HUMAN_STACHE_IDX] = 0; //No mustache
+			app[Portrait.HUMAN_BEARD_IDX] = 0; //No beard
 		}
-		app[10] = RNGStuff.getRandomHairColor(); //Hair color
+		app[Portrait.HUMAN_HAIRCOLOR_IDX] = RNGStuff.getRandomHairColor(); //Hair color
 		Color skinColor = RNGStuff.SKIN_COLORS_IN_USE.colorAtIndex(RNGStuff.getRandomSkinColor()); //Skin color
-		app[11] = (int)Mathf.Round(skinColor.r * 255);
-		app[12] = (int)Mathf.Round(skinColor.g * 255);
-		app[13] = (int)Mathf.Round(skinColor.b * 255);
-		app[14] = RNGStuff.getRandomEyeColor(); //Eye color
+		app[Portrait.HUMAN_SKINR_IDX] = Mathf.RoundToInt(skinColor.r * 255);
+		app[Portrait.HUMAN_SKING_IDX] = Mathf.RoundToInt(skinColor.g * 255);
+		app[Portrait.HUMAN_SKINB_IDX] = Mathf.RoundToInt(skinColor.b * 255);
+		app[Portrait.HUMAN_EYECOLOR_IDX] = RNGStuff.getRandomEyeColor(); //Eye color
 		return app;
 	}
 

@@ -64,6 +64,11 @@ public class UnitGroup : WMTileOccupant
 
 	}
 
+	public string getName()
+    {
+		return $"{getLeader().getName()}'s Group";
+    }
+
 	public int getLeadershipBonus(Unit unit)
 	{
 		if (members[0] == unit)

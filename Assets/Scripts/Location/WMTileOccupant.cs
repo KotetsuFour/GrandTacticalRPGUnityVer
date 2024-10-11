@@ -9,4 +9,8 @@ public interface WMTileOccupant
 	public int getMovement();
 
 	public Unit getLeader();
+
+	public string getName();
+
+	public int[] getPower();
 }

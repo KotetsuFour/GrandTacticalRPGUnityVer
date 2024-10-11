@@ -8,16 +8,14 @@ public abstract class Defendable : Building, Assignable
 	private List<StationaryWeapon> defenses;
 	protected List<int[]> armors;
 	protected List<int[]> staves;
-	protected WorldMapTile location;
 
 	public Defendable(string name, int maxStructuralIntegrity, int durability, int resistance,
 			Human owner, WorldMapTile location)
-			: base(name, maxStructuralIntegrity, durability, resistance, owner)
+			: base(name, maxStructuralIntegrity, durability, resistance, owner, location)
 	{
 		this.armors = new List<int[]>();
 		this.staves = new List<int[]>();
 		this.defenses = new List<StationaryWeapon>();
-		this.location = location;
 	}
 
 

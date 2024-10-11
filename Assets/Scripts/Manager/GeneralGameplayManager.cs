@@ -18,6 +18,9 @@ public static class GeneralGameplayManager
 	public static int DAYS_IN_YEAR = DAYS_IN_MONTH * HistoricalRecord.MONTH_NAMES.Length;
 	public static int ACTIONS_PER_DAY = 5;
 	public static int INITIAL_NPC_NATION_COUNT = 4;
+	public static string[] INITIAL_NATION_BUILDINGS = { Building.CASTLE, Building.VILLAGE, Building.FARM,
+		Building.VILLAGE, Building.STOREHOUSE, Building.MINING_FACILITY, Building.VILLAGE,
+		Building.TRAINING_FACILITY};
 
 	/**
 	 * Tells if the game is being played in event time
@@ -115,55 +118,241 @@ public static class GeneralGameplayManager
 	public static void initializePlayerNation(string name, string capitalName, int type,
 			int language)
 	{
-		//TODO procedural generation
 		worldMap = new WorldMap();
 		isInEventTime = false;
 		playerNation = new Nation(name, capitalName, type, language);
+		playerNation.setRuler(player);
 		resetMonthActions();
 	}
 
-	public static void initializeGeneralWorld()
+	public static void initializeNPCNations()
 	{
 		npcNations = new List<Nation>(9);
+		setNPCNationNearPosition(0, 0);
+		setNPCNationNearPosition(0, WorldMap.SQRT_OF_MAP_SIZE - 1);
+		setNPCNationNearPosition(WorldMap.SQRT_OF_MAP_SIZE - 1, 0);
+		setNPCNationNearPosition(WorldMap.SQRT_OF_MAP_SIZE - 1, WorldMap.SQRT_OF_MAP_SIZE - 1);
+	}
 
-		for (int q = 0; q < INITIAL_NPC_NATION_COUNT; q++)
+	private static void setNationNearPosition(Nation n, CityState cs, Human r, int x, int y)
+    {
+		int[] startCoords = nearestStartingPointForNation(x, y);
+		List<int[]> area = buildableAreaOfSizeAroundPoint(startCoords[0], startCoords[1], INITIAL_NATION_BUILDINGS.Length);
+		for (int q = 0; q < area.Count; q++)
 		{
-			Nation n = new Nation();
-			CityState cs = n.getCapital();
-			Human r = n.getRuler();
-			npcNations.Add(n);
-
-			//TODO change the city and building placement to be systematic, based on terrain
-			//generation
-			claimTileForNation(cs, worldMap.at((q + 1) * 5, 0));
-			Castle castle = new Castle(r, worldMap.at((q + 1) * 5, 0));
-			new UnitGroup(r);
-			castle.assignGroup(r.getGroup());
-			addBuildingToCityAndMap(castle, cs, worldMap.at((q + 1) * 5, 0));
-			claimTileForNation(cs, worldMap.at((q + 1) * 5, 1));
-			addBuildingToCityAndMap(new Village(cs), cs, worldMap.at((q + 1) * 5, 1));
-			claimTileForNation(cs, worldMap.at((q + 1) * 5, 2));
-			addBuildingToCityAndMap(new Village(cs), cs, worldMap.at((q + 1) * 5, 2));
-			claimTileForNation(cs, worldMap.at((q + 1) * 5, 3));
-			addBuildingToCityAndMap(new Village(cs), cs, worldMap.at((q + 1) * 5, 3));
-			claimTileForNation(cs, worldMap.at(((q + 1) * 5) + 1, 0));
-			addBuildingToCityAndMap(new TrainingFacility(RNGStuff.newLocationName(n.getNationalLanguage()),
-					Human.completelyRandomHuman(cs), worldMap.at((q * 5) + 1, 0)),
-					cs, worldMap.at(((q + 1) * 5) + 1, 0));
-			claimTileForNation(cs, worldMap.at(((q + 1) * 5) + 1, 1));
-			addBuildingToCityAndMap(new Farm(RNGStuff.newLocationName(n.getNationalLanguage()),
-					Human.completelyRandomHuman(cs), worldMap.at(((q + 1) * 5) + 1, 1)),
-					cs, worldMap.at(((q + 1) * 5) + 1, 1));
-			claimTileForNation(cs, worldMap.at(((q + 1) * 5) + 1, 2));
-			addBuildingToCityAndMap(new Storehouse(RNGStuff.newLocationName(n.getNationalLanguage()),
-					Human.completelyRandomHuman(cs), worldMap.at(((q + 1) * 5) + 1, 2)),
-					cs, worldMap.at(((q + 1) * 5) + 1, 2));
-			claimTileForNation(cs, worldMap.at(((q + 1) * 5) + 1, 3));
-			addBuildingToCityAndMap(new MiningFacility(RNGStuff.newLocationName(n.getNationalLanguage()),
-					Human.completelyRandomHuman(cs), worldMap.at(((q + 1) * 5) + 1, 3)),
-					cs, worldMap.at(((q + 1) * 5) + 1, 3));
+			int[] coords = area[q];
+			claimTileForNation(cs, worldMap.at(coords[0], coords[1]));
+			if (INITIAL_NATION_BUILDINGS[q] == Building.CASTLE)
+			{
+				setCastle(cs, coords[0], coords[1], r);
+			}
+			else
+			{
+				setBuilding(cs, coords[0], coords[1], INITIAL_NATION_BUILDINGS[q]);
+			}
+			worldMap.at(coords[0], coords[1]);
 		}
+	}
 
+	private static void setNPCNationNearPosition(int x, int y)
+    {
+		Nation n = new Nation();
+		CityState cs = n.getCapital();
+		Human r = n.getRuler();
+		npcNations.Add(n);
+
+		setNationNearPosition(n, cs, r, x, y);
+	}
+
+	private static int[] nearestStartingPointForNation(int x, int y)
+    {
+		Queue<int[]> queue = new Queue<int[]>();
+		queue.Enqueue(new int[] { x, y });
+		while (worldMap.at(queue.Peek()[0], queue.Peek()[1]).getType() == WorldMapTile.WorldMapTileType.DEEP_WATER
+			|| worldMap.at(queue.Peek()[0], queue.Peek()[1]).getType() == WorldMapTile.WorldMapTileType.SHALLOW_WATER)
+        {
+			int[] next = queue.Dequeue();
+			if (next[0] > 0)
+            {
+				queue.Enqueue(new int[] { next[0] - 1, next[1] });
+            }
+			if (next[0] < WorldMap.SQRT_OF_MAP_SIZE - 1)
+			{
+				queue.Enqueue(new int[] { next[0] + 1, next[1] });
+			}
+			if (next[1] > 0)
+			{
+				queue.Enqueue(new int[] { next[0], next[1] - 1 });
+			}
+			if (next[1] < WorldMap.SQRT_OF_MAP_SIZE - 1)
+			{
+				queue.Enqueue(new int[] { next[0], next[1] + 1 });
+			}
+		}
+		return queue.Dequeue();
+	}
+	private static List<int[]> buildableAreaOfSizeAroundPoint(int x, int y, int targetSize)
+    {
+		List<int[]> ret = new List<int[]>();
+		Queue<int[]> queue = new Queue<int[]>();
+		queue.Enqueue(new int[] { x, y });
+		while (queue.Count > 0 && ret.Count < targetSize)
+        {
+			int[] next = queue.Dequeue();
+			if (worldMap.at(next[0], next[1]).getType() != WorldMapTile.WorldMapTileType.DEEP_WATER
+				&& worldMap.at(next[0], next[1]).getType() != WorldMapTile.WorldMapTileType.SHALLOW_WATER)
+            {
+				bool cont = false;
+				for (int q = 0; q < ret.Count; q++)
+				{
+					if (ret[q][0] == next[0] && ret[q][1] == next[1])
+					{
+						cont = true;
+					}
+				}
+				if (cont)
+                {
+					continue;
+                }
+				ret.Add(next);
+				if (next[0] > 0)
+				{
+					queue.Enqueue(new int[] { next[0] - 1, next[1] });
+				}
+				if (next[0] < WorldMap.SQRT_OF_MAP_SIZE - 1)
+				{
+					queue.Enqueue(new int[] { next[0] + 1, next[1] });
+				}
+				if (next[1] > 0)
+				{
+					queue.Enqueue(new int[] { next[0], next[1] - 1 });
+				}
+				if (next[1] < WorldMap.SQRT_OF_MAP_SIZE - 1)
+				{
+					queue.Enqueue(new int[] { next[0], next[1] + 1 });
+				}
+
+			}
+		}
+		return ret;
+    }
+
+	public static void setBuilding(CityState city, int x, int y, string buildingType)
+    {
+		if (buildingType == Building.BARRACKS)
+        {
+			addBuildingToCityAndMap(new Barracks(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.COLISEUM)
+        {
+			addBuildingToCityAndMap(new Coliseum(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.FACTORY)
+		{
+			addBuildingToCityAndMap(new Factory(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.FARM)
+		{
+			addBuildingToCityAndMap(new Farm(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.FORTRESS)
+		{
+			addBuildingToCityAndMap(new Fortress(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.HOSPITAL)
+		{
+			addBuildingToCityAndMap(new Hospital(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.MAGIC_PROCESSING_FACILITY)
+		{
+			addBuildingToCityAndMap(new MagicProcessingFacility(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.MINING_FACILITY)
+		{
+			addBuildingToCityAndMap(new MiningFacility(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.PORT)
+		{
+			addBuildingToCityAndMap(new Port(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.PRISON)
+		{
+			addBuildingToCityAndMap(new Prison(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.RANCH)
+		{
+			addBuildingToCityAndMap(new Ranch(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.RESEARCH_CENTER)
+		{
+			addBuildingToCityAndMap(new ResearchCenter(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.SHIPYARD)
+		{
+			addBuildingToCityAndMap(new Shipyard(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.STOREHOUSE)
+		{
+			addBuildingToCityAndMap(new Storehouse(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.TRADE_CENTER)
+		{
+			addBuildingToCityAndMap(new TradeCenter(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.TRAINING_FACILITY)
+		{
+			addBuildingToCityAndMap(new TrainingFacility(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.VILLAGE)
+		{
+			addBuildingToCityAndMap(new Village(RNGStuff.newLocationName(city.getLanguage()), city, worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+		else if (buildingType == Building.WARP_PAD)
+		{
+			addBuildingToCityAndMap(new WarpPad(RNGStuff.newLocationName(city.getLanguage()),
+				Human.completelyRandomHuman(city), worldMap.at(x, y)),
+				city, worldMap.at(x, y));
+		}
+	}
+	public static void setCastle(CityState city, int x, int y, Human ruler)
+	{
+		Castle castle = new Castle(ruler, worldMap.at(x, y));
+		new UnitGroup(ruler);
+		castle.assignGroup(ruler.getGroup());
+		addBuildingToCityAndMap(castle, city, worldMap.at(x, y));
 	}
 
 	public static void initializePlayer(string pName, bool pGender, int pFace, int pNose, int pLips, int pEar,
@@ -260,32 +449,8 @@ public static class GeneralGameplayManager
 		playerNation.getArmy().Add(player);
 		new UnitGroup(player); //The constructor for UnitGroup automatically adds itself the members' nation
 							   //TODO figure out actual coordinates
-		claimTileForNation(playerNation.getCapital(), worldMap.at(0, 0));
-		Castle playerCastle = new Castle(player, worldMap.at(0, 0));
-		playerCastle.assignGroup(player.getGroup());
-		addBuildingToCityAndMap(playerCastle, playerNation.getCapital(), worldMap.at(0, 0));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(0, 1));
-		addBuildingToCityAndMap(new Village(playerNation.getCapital()), playerNation.getCapital(), worldMap.at(0, 1));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(0, 2));
-		addBuildingToCityAndMap(new Village(playerNation.getCapital()), playerNation.getCapital(), worldMap.at(0, 2));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(0, 3));
-		addBuildingToCityAndMap(new Village(playerNation.getCapital()), playerNation.getCapital(), worldMap.at(0, 3));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(1, 0));
-		addBuildingToCityAndMap(new TrainingFacility(RNGStuff.newLocationName(playerNation.getNationalLanguage()),
-				Human.completelyRandomHuman(playerNation.getCapital()), worldMap.at(1, 0)),
-				playerNation.getCapital(), worldMap.at(1, 0));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(1, 1));
-		addBuildingToCityAndMap(new Farm(RNGStuff.newLocationName(playerNation.getNationalLanguage()),
-				Human.completelyRandomHuman(playerNation.getCapital()), worldMap.at(1, 1)),
-				playerNation.getCapital(), worldMap.at(1, 1));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(1, 2));
-		addBuildingToCityAndMap(new Storehouse(RNGStuff.newLocationName(playerNation.getNationalLanguage()),
-				Human.completelyRandomHuman(playerNation.getCapital()), worldMap.at(1, 2)),
-				playerNation.getCapital(), worldMap.at(1, 2));
-		claimTileForNation(playerNation.getCapital(), worldMap.at(1, 3));
-		addBuildingToCityAndMap(new MiningFacility(RNGStuff.newLocationName(playerNation.getNationalLanguage()),
-				Human.completelyRandomHuman(playerNation.getCapital()), worldMap.at(1, 3)),
-				playerNation.getCapital(), worldMap.at(1, 3));
+
+		setNationNearPosition(playerNation, playerNation.getCapital(), playerNation.getRuler(), WorldMap.SQRT_OF_MAP_SIZE / 2, WorldMap.SQRT_OF_MAP_SIZE / 2);
 	}
 
 	public static WorldMap getWorldMap()
@@ -309,7 +474,7 @@ public static class GeneralGameplayManager
 		//City-state automatically adds itself to the nation's city list
 		CityState cs = new CityState(name, getPlayerNation());
 		claimTileForNation(cs, tile);
-		addBuildingToCityAndMap(new Village(cs), cs, tile);
+		addBuildingToCityAndMap(new Village(cs, tile), cs, tile);
 	}
 
 	public static Dictionary<WorldMapTile, object> getTraversableWorldMapTilesPeaceTime(UnitGroup group,
